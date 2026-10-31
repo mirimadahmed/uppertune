@@ -31,21 +31,21 @@ function MetricCard({
   cta: string
 }) {
   return (
-    <Link
-      href={href}
-      className="group flex flex-col rounded-2xl border bg-card p-5 card-shadow transition-[box-shadow,border-color] hover:border-primary/25 hover:shadow-md md:p-6"
-    >
+    <Link href={href} className="group flex flex-col bg-card p-6 transition-colors hover:bg-background lg:p-8">
       <div className="flex items-center justify-between gap-3">
-        <span className="eyebrow">{label}</span>
-        <span className="inline-flex size-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-          <Icon className="size-4" aria-hidden />
-        </span>
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{label}</span>
+        <Icon className="size-4 text-muted-foreground transition-colors group-hover:text-foreground" aria-hidden />
       </div>
-      <span className="mt-5 font-display text-6xl leading-none tabular-nums tracking-tight">{value}</span>
-      <span className="mt-2 text-sm text-muted-foreground">{caption}</span>
-      <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
-        {cta}
-        <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+      <span className="mt-6 font-display text-7xl leading-none tabular-nums tracking-tight lg:text-8xl">
+        {String(value).padStart(2, "0")}
+      </span>
+      <span className="mt-4 text-sm leading-relaxed text-muted-foreground">{caption}</span>
+      <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
+        <span className="relative">
+          {cta}
+          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-primary transition-all duration-300 group-hover:w-full" aria-hidden />
+        </span>
+        <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
       </span>
     </Link>
   )
@@ -78,7 +78,7 @@ export function Overview() {
           }
         />
         <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-          <span className="size-1.5 rounded-full bg-accent-teal" aria-hidden />
+          <span className="size-1.5 animate-pulse rounded-full bg-accent-teal" aria-hidden />
           {describeAnalysis(state)}
         </p>
         {notes.length > 0 ? (
@@ -93,7 +93,7 @@ export function Overview() {
         ) : null}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-px border border-foreground/10 bg-foreground/10 md:grid-cols-3">
         <MetricCard
           href="/app/funding"
           icon={Landmark}
@@ -136,7 +136,11 @@ export function Overview() {
       <section aria-labelledby="strongest-heading" className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 id="strongest-heading" className="font-display text-3xl tracking-tight">
+            <span className="mb-4 inline-flex items-center gap-3 font-mono text-sm text-muted-foreground">
+              <span className="h-px w-8 bg-foreground/30" aria-hidden />
+              Highest fit
+            </span>
+            <h2 id="strongest-heading" className="font-display text-4xl tracking-tight lg:text-5xl">
               Your strongest opportunities
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -146,7 +150,7 @@ export function Overview() {
           </div>
         </div>
         {topFunding.length + topPartners.length === 0 ? (
-          <div className="rounded-2xl border border-dashed bg-card px-6 py-10 text-center">
+          <div className="border border-dashed border-foreground/20 bg-card px-6 py-10 text-center">
             <p className="text-sm font-medium">No opportunities above the relevance threshold yet</p>
             <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground">
               No suitable records were found in the current curated dataset for this profile. Adding detail to your

@@ -4,9 +4,8 @@ import { useId, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { normaliseWebsiteInput } from "@/components/landing/normalise-url";
+import { ctaSize, outlineCta, primaryCta } from "@/components/landing/cta-styles";
 import { cn } from "@/lib/utils";
 
 export function UrlForm({
@@ -41,13 +40,13 @@ export function UrlForm({
 
   return (
     <form onSubmit={onSubmit} noValidate className={cn("w-full", className)}>
-      <label htmlFor={inputId} className="mb-2 block text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="mb-3 block font-mono text-sm text-muted-foreground">
         Enter your startup website
       </label>
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Globe className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
+          <Globe className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
             id={inputId}
             type="text"
             inputMode="url"
@@ -62,29 +61,28 @@ export function UrlForm({
             }}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? errorId : undefined}
-            className="h-12 rounded-xl border-border bg-card pl-10 text-[15px] shadow-none"
+            className="h-14 w-full rounded-none border border-foreground/20 bg-background pl-11 pr-4 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground hover:border-foreground/40 focus-visible:border-primary aria-invalid:border-danger"
           />
         </div>
-        <Button type="submit" size="lg" disabled={submitting} className="h-12 rounded-xl px-5 text-[15px]">
+        <button type="submit" disabled={submitting} className={cn(primaryCta, ctaSize.lg)}>
           Analyse my startup
-          <ArrowRight className="size-4" />
-        </Button>
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+        </button>
       </div>
       {error ? (
-        <p id={errorId} role="alert" className="mt-2 text-sm text-danger">
+        <p id={errorId} role="alert" className="mt-2 font-mono text-sm text-danger">
           {error}
         </p>
       ) : null}
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-        <Button asChild variant="outline" size="sm" className="rounded-full bg-card px-4">
-          <Link href="/analyze?demo=1">Explore demo</Link>
-        </Button>
-        {showCaption ? (
-          <p className="text-sm text-muted-foreground">
-            UpperTune analyses your business and maps opportunities that fit your startup.
-          </p>
-        ) : null}
-      </div>
+      <Link href="/analyze?demo=1" className={cn(outlineCta, ctaSize.lg, "mt-3 flex w-full")}>
+        Explore demo
+        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+      </Link>
+      {showCaption ? (
+        <p className="mt-4 text-sm text-muted-foreground">
+          UpperTune analyses your business and maps opportunities that fit your startup.
+        </p>
+      ) : null}
     </form>
   );
 }

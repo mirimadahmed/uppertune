@@ -29,13 +29,13 @@ export function FilterChips<T extends string>({
             className={cn(
               "inline-flex h-8 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition-colors",
               active
-                ? "border-foreground bg-foreground text-background"
+                ? "border-primary bg-primary text-primary-foreground"
                 : "bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
             )}
           >
             {o.label}
             {o.count !== undefined ? (
-              <span className={cn("font-mono text-[11px] tabular-nums", active ? "text-background/70" : "text-muted-foreground/80")}>
+              <span className={cn("font-mono text-[11px] tabular-nums", active ? "text-primary-foreground/75" : "text-muted-foreground/80")}>
                 {o.count}
               </span>
             ) : null}

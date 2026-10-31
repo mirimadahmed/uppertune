@@ -1,178 +1,151 @@
-import { ArrowUpRight, Building2, CheckCircle2, CircleDashed, ListChecks, UserRound } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Building2, Check, CircleDashed, ListChecks, UserRound } from "lucide-react";
+import { useInView } from "@/components/landing/use-in-view";
 import { cn } from "@/lib/utils";
 
-function Chip({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full border border-border bg-background px-2.5 py-0.5 text-[11px] font-medium text-foreground/80",
-        className,
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
-function StatusBadge({ tone, children }: { tone: "success" | "warning" | "primary" | "teal"; children: React.ReactNode }) {
-  const tones = {
-    success: "bg-success-soft text-success",
-    warning: "bg-warning-soft text-warning",
-    primary: "bg-primary/10 text-primary",
-    teal: "bg-accent-teal-soft text-accent-teal",
-  } as const;
-  return (
-    <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium", tones[tone])}>
-      {children}
-    </span>
-  );
-}
-
 const rows = [
-  {
-    icon: Building2,
-    kind: "Partnership",
-    title: "Agribusiness pilot partner",
-    detail: "Crop-health monitoring pilot across selected estates",
-    badge: <StatusBadge tone="teal">Potential partnership</StatusBadge>,
-  },
-  {
-    icon: UserRound,
-    kind: "People",
-    title: "Programme manager, agritech accelerator",
-    detail: "Guidance on commercialisation programme fit",
-    badge: <StatusBadge tone="primary">Suggested role</StatusBadge>,
-  },
-  {
-    icon: ListChecks,
-    kind: "Action",
-    title: "Confirm incorporation details",
-    detail: "Required before eligibility can be completed",
-    badge: <StatusBadge tone="warning">High priority</StatusBadge>,
-  },
+  { icon: Building2, kind: "Partnership", title: "Agribusiness pilot partner", detail: "Crop-health monitoring pilot across selected estates", badge: "Potential partnership" },
+  { icon: UserRound, kind: "People", title: "Programme manager, agritech accelerator", detail: "Guidance on commercialisation programme fit", badge: "Suggested role" },
+  { icon: ListChecks, kind: "Action", title: "Confirm incorporation details", detail: "Required before eligibility can be completed", badge: "High priority" },
 ];
 
-export function ProductPreview() {
+const label = "font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground";
+
+export function ProductPreview({ className }: { className?: string }) {
+  const [ref, inView] = useInView<HTMLDivElement>(0.2);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const interval = setInterval(() => setActive((prev) => (prev + 1) % rows.length), 2200);
+    return () => clearInterval(interval);
+  }, [inView]);
+
   return (
-    <div className="relative" aria-label="Illustrative preview of the UpperTune workspace">
-      <div className="rounded-[20px] border border-border bg-card p-2 shadow-[0_24px_60px_-28px_rgba(23,32,51,0.28)]">
-        <div className="flex items-center justify-between border-b border-border px-3 pb-2 pt-1">
-          <div className="flex items-center gap-1.5" aria-hidden>
-            <span className="size-2 rounded-full bg-border" />
-            <span className="size-2 rounded-full bg-border" />
-            <span className="size-2 rounded-full bg-border" />
+    <div
+      ref={ref}
+      role="figure"
+      aria-label="Illustrative preview of the UpperTune workspace"
+      className={cn("border border-foreground/15 bg-background", className)}
+    >
+      <div className="flex items-center justify-between gap-4 border-b border-foreground/10 px-5 py-3.5">
+        <div className="flex items-center gap-4">
+          <div className="flex gap-2" aria-hidden>
+            <span className="size-2.5 rounded-full bg-foreground/15" />
+            <span className="size-2.5 rounded-full bg-foreground/15" />
+            <span className="size-2.5 rounded-full bg-foreground/15" />
           </div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-            Illustrative preview
-          </span>
+          <span className="hidden font-mono text-xs text-muted-foreground sm:inline">uppertune / workspace / canopyiq</span>
         </div>
+        <span className={label}>Illustrative preview</span>
+      </div>
 
-        <div className="grid gap-2 p-2">
-          {/* Company profile summary */}
-          <div className="rounded-2xl border border-border bg-background/60 p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <span className="flex size-9 items-center justify-center rounded-xl bg-accent-teal-soft font-mono text-[11px] font-semibold text-accent-teal">
-                  CQ
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">CanopyIQ</p>
-                  <p className="text-xs text-muted-foreground">Agricultural intelligence platform</p>
-                </div>
-              </div>
-              <span className="rounded-full border border-dashed border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-                Illustrative demo startup
-              </span>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              <Chip>AgriTech</Chip>
-              <Chip>ClimateTech</Chip>
-              <Chip>AI</Chip>
-            </div>
-            <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-border pt-3 text-xs">
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Markets</dt>
-                <dd className="mt-0.5 text-foreground">Malaysia · Indonesia · Singapore</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Stage</dt>
-                <dd className="mt-0.5 text-foreground">Early-stage (demo assumption)</dd>
-              </div>
-            </dl>
-          </div>
-
-          {/* Opportunity card */}
-          <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                  Funding · Malaysia · Grant
-                </p>
-                <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">
-                  Technology commercialisation grant
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  Satellite crop analytics aligns with the programme&apos;s commercialisation focus.
-                </p>
-              </div>
-              <div className="flex shrink-0 flex-col items-center">
-                <div className="relative flex size-14 items-center justify-center">
-                  <svg viewBox="0 0 36 36" className="absolute inset-0 -rotate-90" aria-hidden>
-                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border)" strokeWidth="3" />
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="15.5"
-                      fill="none"
-                      stroke="var(--primary)"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeDasharray={`${0.82 * 97.4} 97.4`}
-                    />
-                  </svg>
-                  <span className="text-sm font-semibold text-foreground">82</span>
-                </div>
-                <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">Fit</span>
-              </div>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              <StatusBadge tone="success">
-                <CheckCircle2 className="size-3" />
-                Potentially eligible
-              </StatusBadge>
-              <StatusBadge tone="warning">
-                <CircleDashed className="size-3" />
-                Intake not confirmed
-              </StatusBadge>
-            </div>
-            <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-xs">
-              <span className="text-muted-foreground">2 criteria need confirmation</span>
-              <span className="inline-flex items-center gap-1 font-medium text-primary">
-                View assessment <ArrowUpRight className="size-3" />
-              </span>
+      <div className="grid gap-px bg-foreground/10 lg:grid-cols-[1fr_1.1fr_1.15fr]">
+        <div className="bg-background p-6 lg:p-8">
+          <p className={label}>Company profile</p>
+          <div className="mt-6 flex items-center gap-4">
+            <span className="flex size-12 items-center justify-center border border-foreground/15 font-mono text-sm text-primary">CQ</span>
+            <div>
+              <p className="font-display text-3xl leading-none tracking-tight">CanopyIQ</p>
+              <p className="mt-1.5 text-sm text-muted-foreground">Agricultural intelligence platform</p>
             </div>
           </div>
-
-          {/* Recommendation rows */}
-          <div className="rounded-2xl border border-border bg-card">
-            {rows.map((row, index) => (
-              <div
-                key={row.title}
-                className={cn("flex items-center gap-3 px-4 py-3", index > 0 && "border-t border-border")}
-              >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-background text-muted-foreground">
-                  <row.icon className="size-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{row.kind}</p>
-                  <p className="truncate text-[13px] font-medium text-foreground">{row.title}</p>
-                  <p className="truncate text-xs text-muted-foreground">{row.detail}</p>
-                </div>
-                <div className="hidden shrink-0 sm:block">{row.badge}</div>
-              </div>
+          <span className="mt-5 inline-flex rounded-full border border-dashed border-foreground/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+            Illustrative demo startup
+          </span>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {["AgriTech", "ClimateTech", "AI"].map((tag) => (
+              <span key={tag} className="border border-foreground/10 px-3 py-1 font-mono text-xs">{tag}</span>
             ))}
           </div>
+          <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-foreground/10 pt-5 text-sm">
+            <div>
+              <dt className={label}>Markets</dt>
+              <dd className="mt-1">Malaysia · Indonesia · Singapore</dd>
+            </div>
+            <div>
+              <dt className={label}>Stage</dt>
+              <dd className="mt-1">Early-stage (demo assumption)</dd>
+            </div>
+          </dl>
         </div>
+
+        <div className="flex flex-col bg-background p-6 lg:p-8">
+          <p className={label}>Funding · Malaysia · Grant</p>
+          <p className="mt-6 font-display text-3xl leading-[1.05] tracking-tight">Technology commercialisation grant</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Satellite crop analytics aligns with the programme&apos;s commercialisation focus.
+          </p>
+          <div className="mt-6 flex items-end justify-between gap-4">
+            <div className="flex items-baseline gap-2">
+              <span className="font-display text-6xl leading-none text-primary">82</span>
+              <span className="font-mono text-xs text-muted-foreground">/ 100 fit</span>
+            </div>
+          </div>
+          <div className="mt-3 h-px bg-foreground/10">
+            <div
+              className="h-full bg-primary transition-[width] duration-[1600ms] ease-out"
+              style={{ width: inView ? "82%" : "0%" }}
+            />
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+              <Check className="size-3" /> Potentially eligible
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-foreground/30 px-3 py-1 text-xs">
+              <CircleDashed className="size-3" /> Intake not confirmed
+            </span>
+          </div>
+          <div className="mt-auto flex items-center justify-between border-t border-foreground/10 pt-4 text-sm max-lg:mt-6">
+            <span className="text-muted-foreground">2 criteria need confirmation</span>
+            <span className="inline-flex items-center gap-1 font-medium text-primary">
+              View assessment <ArrowUpRight className="size-3.5" />
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-background">
+          <div className="flex items-center justify-between border-b border-foreground/10 px-6 py-4 lg:px-8">
+            <span className={label}>Recommendations</span>
+            <span className="font-mono text-xs text-muted-foreground">03</span>
+          </div>
+          {rows.map((row, index) => (
+            <div
+              key={row.title}
+              className={cn(
+                "flex items-start gap-4 border-b border-foreground/5 px-6 py-5 transition-colors duration-300 last:border-b-0 lg:px-8",
+                active === index && "bg-primary/[0.04]",
+              )}
+            >
+              <span
+                className={cn(
+                  "mt-1 flex size-9 shrink-0 items-center justify-center border transition-colors duration-300",
+                  active === index ? "border-primary bg-primary text-primary-foreground" : "border-foreground/10",
+                )}
+              >
+                <row.icon className="size-4" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className={label}>{row.kind}</p>
+                <p className="mt-1 text-[15px] font-medium leading-snug">{row.title}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{row.detail}</p>
+                <span className="mt-2 inline-flex rounded-full border border-foreground/15 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                  {row.badge}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-foreground/10 px-5 py-3.5 font-mono text-xs text-muted-foreground">
+        <span className="flex items-center gap-2">
+          <span className="size-1.5 animate-pulse rounded-full bg-primary" />
+          CanopyIQ is a fictional startup used for the guided demo
+        </span>
+        <span>Verify programme details with the official source</span>
       </div>
     </div>
   );

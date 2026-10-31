@@ -33,14 +33,14 @@ type HighlightProps = {
 
 function HighlightCard(props: HighlightProps) {
   return (
-    <article className="group flex h-full flex-col rounded-2xl border bg-card card-shadow transition-shadow hover:shadow-md">
+    <article className="group flex h-full flex-col border border-foreground/10 bg-card transition-colors hover:border-primary/50">
       <div className="flex items-start gap-4 p-5 md:p-6">
         {props.leading}
         <div className="min-w-0 flex-1">
           <p className="eyebrow">
             {props.kindLabel} · {props.typeLabel}
           </p>
-          <h3 className="mt-1.5 text-lg font-semibold leading-snug tracking-tight">
+          <h3 className="mt-1.5 font-display text-2xl leading-tight tracking-tight">
             <Link href={props.href} className="hover:text-primary">
               {props.title}
             </Link>
@@ -73,7 +73,7 @@ function HighlightCard(props: HighlightProps) {
             </ul>
           </div>
         ) : null}
-        <div className="mt-auto rounded-xl bg-background px-3.5 py-3">
+        <div className="mt-auto border-l-2 border-primary bg-background px-3.5 py-3">
           <p className="eyebrow mb-1">Next step</p>
           <p className="text-sm leading-snug">{props.nextStep}</p>
         </div>

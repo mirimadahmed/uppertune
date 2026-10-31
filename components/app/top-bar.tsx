@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, Menu } from "lucide-react"
+import { ChevronDown, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Monogram, initialsOf } from "@/components/shared/monogram"
 import { WorkspaceMenu } from "@/components/app/workspace-menu"
@@ -39,8 +39,8 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const mode = workspaceModeLabel(state)
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/90 backdrop-blur-sm">
-      <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-10">
+    <header className="sticky top-0 z-30 border-b border-foreground/10 bg-background/85 backdrop-blur-xl">
+      <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-12">
         <Button
           variant="ghost"
           size="icon-sm"
@@ -52,15 +52,28 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
         </Button>
 
         <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
-          <ol className="flex min-w-0 items-center gap-1.5 text-sm">
+          <ol className="flex min-w-0 items-center gap-2.5 text-sm">
+            <li className="hidden shrink-0 items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex">
+              <span className="h-px w-6 bg-foreground/30" aria-hidden />
+              Workspace
+            </li>
             {crumbs.map((c, i) => {
               const last = i === crumbs.length - 1
               return (
-                <li key={`${c.label}-${i}`} className={cn("flex min-w-0 items-center gap-1.5", !last && "shrink-0")}>
-                  {i > 0 ? <ChevronRight className="size-3.5 shrink-0 text-muted-foreground/60" aria-hidden /> : null}
+                <li key={`${c.label}-${i}`} className={cn("flex min-w-0 items-center gap-2.5", !last && "shrink-0")}>
+                  <span className={cn("font-mono text-xs text-foreground/25", i === 0 && "hidden sm:inline")} aria-hidden>
+                    /
+                  </span>
                   {c.href && !last ? (
-                    <Link href={c.href} className="text-muted-foreground transition-colors hover:text-foreground">
+                    <Link
+                      href={c.href}
+                      className="group relative text-muted-foreground transition-colors hover:text-foreground"
+                    >
                       {c.label}
+                      <span
+                        className="absolute -bottom-0.5 left-0 h-px w-0 bg-primary transition-all duration-300 group-hover:w-full"
+                        aria-hidden
+                      />
                     </Link>
                   ) : (
                     <span className="truncate font-medium text-foreground" aria-current={last ? "page" : undefined}>
@@ -74,23 +87,29 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <span
-            className={cn(
-              "hidden items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium md:inline-flex",
-              isDemo
-                ? "border-accent-teal/15 bg-accent-teal-soft text-accent-teal"
-                : "border-primary/15 bg-accent text-accent-foreground",
-            )}
-          >
-            <span className={cn("size-1.5 rounded-full", isDemo ? "bg-accent-teal" : "bg-primary")} aria-hidden />
+          <span className="hidden items-center gap-2 rounded-full border border-foreground/15 px-3 py-1 font-mono text-[11px] text-foreground md:inline-flex">
+            <span className="relative flex size-1.5" aria-hidden>
+              <span
+                className={cn(
+                  "absolute inline-flex size-full animate-ping rounded-full opacity-60",
+                  isDemo ? "bg-accent-teal" : "bg-success",
+                )}
+              />
+              <span className={cn("relative inline-flex size-1.5 rounded-full", isDemo ? "bg-accent-teal" : "bg-success")} />
+            </span>
             {mode.title}
-            <span className="hidden font-normal opacity-80 xl:inline">· {mode.detail}</span>
+            <span className="hidden text-muted-foreground xl:inline">· {mode.detail}</span>
           </span>
 
           <WorkspaceMenu
             trigger={
-              <Button variant="outline" size="sm" className="h-9 gap-2 pl-1.5 pr-2.5" aria-label="Workspace menu">
-                <Monogram text={initialsOf(state.profile.name)} size="sm" tone={isDemo ? "ink" : "primary"} className="size-6 rounded-md text-[10px]" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 gap-2 rounded-none border-foreground/15 bg-transparent pl-1.5 pr-2.5 shadow-none hover:border-foreground/40 hover:bg-transparent"
+                aria-label="Workspace menu"
+              >
+                <Monogram text={initialsOf(state.profile.name)} size="sm" tone={isDemo ? "ink" : "primary"} className="size-6 text-[10px]" />
                 <span className="hidden max-w-[160px] truncate sm:inline">{state.profile.name}</span>
                 <ChevronDown className="size-3.5 text-muted-foreground" aria-hidden />
               </Button>

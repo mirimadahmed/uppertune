@@ -1,15 +1,16 @@
 import { cn } from "@/lib/utils"
 
 const SIZE = {
-  sm: "size-8 text-[11px] rounded-lg",
-  md: "size-10 text-xs rounded-xl",
-  lg: "size-14 text-sm rounded-2xl",
+  sm: "size-8 text-[11px]",
+  md: "size-10 text-xs",
+  lg: "size-14 text-sm",
 } as const
 
 const TONE = {
   ink: "bg-foreground text-background",
   primary: "bg-primary text-primary-foreground",
-  teal: "bg-accent-teal text-white",
+  // Outlined ink: distinguishes organisations and people from the startup's own solid mark.
+  teal: "bg-card text-foreground ring-1 ring-inset ring-foreground/70",
 } as const
 
 export function Monogram({

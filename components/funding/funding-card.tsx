@@ -22,7 +22,7 @@ export function FundingCard({ assessment, muted = false }: { assessment: Funding
   return (
     <article
       className={cn(
-        "group rounded-2xl border bg-card card-shadow transition-[box-shadow,border-color] hover:border-primary/20 hover:shadow-md",
+        "group border border-foreground/10 bg-card transition-colors hover:border-primary/50",
         muted && "bg-card/70",
       )}
     >
@@ -34,7 +34,7 @@ export function FundingCard({ assessment, muted = false }: { assessment: Funding
             {o.demoOnly ? <ProvenanceBadge kind="illustrative" /> : null}
           </div>
 
-          <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight md:text-xl">
+          <h3 className="mt-3 font-display text-[1.7rem] leading-tight tracking-tight">
             <Link href={href} className="hover:text-primary">
               {o.title}
             </Link>

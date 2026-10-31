@@ -1,9 +1,25 @@
 import { cn } from "@/lib/utils";
 
-export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
+/** Template eyebrow: mono label with a leading hairline. */
+export function Eyebrow({
+  children,
+  className,
+  inverted = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  inverted?: boolean;
+}) {
   return (
-    <p className={cn("font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground", className)}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-3 font-mono text-sm",
+        inverted ? "text-background/50" : "text-muted-foreground",
+        className,
+      )}
+    >
+      <span aria-hidden className={cn("h-px w-8", inverted ? "bg-background/30" : "bg-foreground/30")} />
       {children}
-    </p>
+    </span>
   );
 }

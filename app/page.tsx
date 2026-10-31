@@ -1,15 +1,15 @@
 import { Hero } from "@/components/landing/hero";
 import { SiteNav } from "@/components/landing/site-nav";
-import { Ecosystem, FinalCta, HowItWorks, Provenance, SiteFooter, WhatYouGet } from "@/components/landing/sections";
+import { Ecosystem, FinalCta, HowItWorks, ProductSection, Provenance, SiteFooter } from "@/components/landing/sections";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="noise-overlay relative min-h-screen overflow-x-clip bg-background text-foreground">
       <SiteNav />
       <main>
         <Hero />
+        <ProductSection />
         <HowItWorks />
-        <WhatYouGet />
         <Provenance />
         <Ecosystem />
         <FinalCta />

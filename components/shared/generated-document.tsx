@@ -28,7 +28,7 @@ function SectionBody({ body }: { body: string }) {
       <ul className="space-y-1.5">
         {lines.map((l, i) => (
           <li key={i} className="flex gap-2 text-sm leading-relaxed">
-            <span className="mt-2 size-1 shrink-0 rounded-full bg-primary/70" aria-hidden />
+            <span className="mt-2 size-1 shrink-0 bg-primary" aria-hidden />
             <span>{l.replace(/^[-•*]\s+/, "")}</span>
           </li>
         ))}
@@ -126,7 +126,7 @@ export function GeneratedDocumentPanel({
     <div className={cn("space-y-4", className)}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold">{title}</h3>
+          <h3 className="font-display text-xl leading-tight">{title}</h3>
           {description ? <p className="mt-0.5 text-sm text-muted-foreground">{description}</p> : null}
         </div>
         {doc && !editing ? (

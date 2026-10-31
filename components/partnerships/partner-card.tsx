@@ -24,7 +24,7 @@ export function PartnerCard({ assessment, muted = false }: { assessment: Partner
       <div className="flex items-start gap-4">
         <Monogram text={partner.monogram} size="md" tone={muted ? "ink" : "primary"} className={cn(muted && "opacity-70")} />
         <div className="min-w-0 flex-1">
-          <h3 className="text-lg font-semibold leading-snug tracking-tight">
+          <h3 className="font-display text-2xl leading-tight tracking-tight">
             <Link href={href} className="outline-none transition-colors hover:text-primary focus-visible:text-primary">
               {partner.name}
             </Link>
@@ -59,11 +59,11 @@ export function PartnerCard({ assessment, muted = false }: { assessment: Partner
             {partner.collaboration.pilotScope}
           </p>
         </div>
-        <div className="rounded-xl border border-primary/10 bg-accent/60 px-4 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-accent-foreground/80">
+        <div className="border-l-2 border-primary bg-background px-4 py-3">
+          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
             Suggested next step
           </p>
-          <p className="mt-1 text-sm leading-relaxed text-accent-foreground">{nextStep}</p>
+          <p className="mt-1 text-sm leading-relaxed text-foreground">{nextStep}</p>
         </div>
       </div>
 

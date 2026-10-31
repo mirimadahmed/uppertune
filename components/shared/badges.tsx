@@ -35,12 +35,12 @@ import type {
 export type PillTone = "neutral" | "info" | "teal" | "success" | "warning" | "danger"
 
 const TONE_CLASS: Record<PillTone, string> = {
-  neutral: "bg-secondary text-muted-foreground border-border",
-  info: "bg-info-soft text-accent-foreground border-primary/15",
-  teal: "bg-accent-teal-soft text-accent-teal border-accent-teal/15",
-  success: "bg-success-soft text-success border-success/15",
-  warning: "bg-warning-soft text-warning border-warning/20",
-  danger: "bg-danger-soft text-danger border-danger/15",
+  neutral: "bg-transparent text-foreground/70 border-foreground/15",
+  info: "bg-foreground/[0.04] text-foreground border-foreground/30",
+  teal: "bg-accent-teal-soft text-accent-teal border-accent-teal/20",
+  success: "bg-success-soft text-success border-success/20",
+  warning: "bg-warning-soft text-warning border-warning/25",
+  danger: "bg-danger-soft text-danger border-danger/20",
 }
 
 export function Pill({
@@ -60,7 +60,7 @@ export function Pill({
     <span
       title={title}
       className={cn(
-        "inline-flex h-6 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-2.5 text-xs font-medium leading-none",
+        "inline-flex h-6 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border px-2 text-xs font-medium leading-none",
         TONE_CLASS[tone],
         className,
       )}

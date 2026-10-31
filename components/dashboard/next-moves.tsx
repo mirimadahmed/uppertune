@@ -30,7 +30,7 @@ export function NextMoves({ limit = 5 }: { limit?: number }) {
     <section className="flex h-full flex-col rounded-2xl border bg-card card-shadow">
       <div className="flex items-start justify-between gap-3 border-b px-5 py-4 md:px-6">
         <div>
-          <h2 className="text-base font-semibold tracking-tight">Your next moves</h2>
+          <h2 className="font-display text-2xl leading-tight tracking-tight">Your next moves</h2>
           <p className="mt-0.5 text-sm text-muted-foreground">
             {tasks.length > 0
               ? `${completed} of ${tasks.length} roadmap tasks completed`
@@ -65,7 +65,7 @@ export function NextMoves({ limit = 5 }: { limit?: number }) {
                 className="group flex items-start gap-3 px-5 py-3.5 transition-colors hover:bg-background/70 md:px-6"
               >
                 <span
-                  className={cn("mt-1.5 size-2 shrink-0 rounded-full", PRIORITY_DOT[task.priority])}
+                  className={cn("mt-1.5 size-2 shrink-0", PRIORITY_DOT[task.priority])}
                   title={PRIORITY_LABEL[task.priority]}
                   aria-hidden
                 />
