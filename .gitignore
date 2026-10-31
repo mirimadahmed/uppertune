@@ -30,3 +30,9 @@ next-env.d.ts
 .context/
 .env
 .env.local
+# demo video media (not committed)
+demo-video/*.mp4
+demo-video/*.webm
+demo-video/*.aiff
+demo-video/*.wav
+demo-video/raw/
