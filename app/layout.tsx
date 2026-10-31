@@ -1,29 +1,30 @@
-import React from "react"
-import type { Metadata } from 'next'
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type React from "react"
+import type { Metadata } from "next"
+import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
+import { WorkspaceProvider } from "@/lib/workspace"
+import "./globals.css"
 
-const instrumentSans = Instrument_Sans({ 
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  variable: '--font-instrument'
-});
+  variable: "--font-instrument",
+})
 
-const instrumentSerif = Instrument_Serif({ 
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
-  variable: '--font-instrument-serif'
-});
+  variable: "--font-instrument-serif",
+})
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: '--font-jetbrains'
-});
+  variable: "--font-jetbrains",
+})
 
 export const metadata: Metadata = {
-  title: 'Optimus - Platform to Create',
-  description: 'The creative platform for teams who ship. Build, deploy, and scale with unprecedented velocity.',
-  generator: 'v0.app',
+  title: "UpperTune — Know your opportunities. Make them happen.",
+  description:
+    "Your startup's intelligence layer for funding, partnerships and growth across ASEAN.",
 }
 
 export default function RootLayout({
@@ -33,9 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        {children}
-        <Analytics />
+      <body
+        className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+      >
+        <WorkspaceProvider>{children}</WorkspaceProvider>
+        <Toaster position="bottom-right" theme="light" />
       </body>
     </html>
   )
