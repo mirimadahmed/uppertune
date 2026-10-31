@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { generateRequestSchema, sectionsSchemaFor } from "@/lib/ai-schemas";
-import { AiError, generateJson, getModelName, isAiConfigured } from "@/lib/gemma";
+import { AiError, generateJsonWithModel, isAiConfigured } from "@/lib/gemma";
 import { assessFunding } from "@/lib/matching";
 import { REQUIRED_HEADINGS, introPrompt, pitchPrompt, pocPrompt, strategyPrompt } from "@/lib/prompts";
 import { resolveTarget, templateDocument, type GenerationTarget } from "@/lib/templates";
@@ -52,9 +52,9 @@ export async function POST(request: Request) {
   if (isAiConfigured()) {
     try {
       const { prompt, headings } = buildPrompt(kind, target, profile);
-      const result = await generateJson(prompt, sectionsSchemaFor(headings), {
+      const { data: result, model } = await generateJsonWithModel(prompt, sectionsSchemaFor(headings), {
         temperature: 0.4,
-        maxOutputTokens: 1800,
+        maxOutputTokens: 6144,
       });
       return NextResponse.json<GenerateResponse>({
         document: {
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           title: result.title,
           sections: result.sections,
           source: "gemma",
-          model: getModelName(),
+          model,
           generatedAt: new Date().toISOString(),
         },
       });

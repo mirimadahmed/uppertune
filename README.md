@@ -30,7 +30,7 @@ A founder enters their startup website. UpperTune reads that single page, uses *
 
 ## How Gemma 4 is used
 
-All model calls run on the server (`lib/gemma.ts`) through the Google Gen AI SDK (`@google/genai`) and the Gemini API, using `gemma-4-31b-it` by default (configurable with `GEMMA_MODEL`).
+All model calls run on the server (`lib/gemma.ts`) through the Google Gen AI SDK (`@google/genai`) and the Gemini API, using `gemma-4-26b-a4b-it` by default (configurable with `GEMMA_MODEL`). If a call times out or the API returns a server error, it retries once on the other Gemma 4 model (`gemma-4-31b-it`). In testing, the 26B mixture-of-experts model answered in about 5 seconds, while `gemma-4-31b-it` took 60–90 seconds and intermittently returned server errors, so the faster model is the default. Gemma 4 thinking is switched off (`thinkingLevel: minimal`) because, on long prompts, it used the whole output budget before answering; with it off, profile extraction takes about 10 seconds. Intermittent 5xx responses are retried twice on the same model before switching models.
 
 Four AI tasks:
 
@@ -71,7 +71,9 @@ Environment variables:
 | Variable | Purpose |
 | --- | --- |
 | `GEMINI_API_KEY` | Gemini API key used to call Gemma 4. Optional: without it the guided demo and template fallbacks still work. |
-| `GEMMA_MODEL` | Model name, default `gemma-4-31b-it`. |
+| `GEMMA_MODEL` | Primary Gemma 4 model, default `gemma-4-26b-a4b-it`. `gemma-4-31b-it` is also supported. |
+| `GEMMA_THINKING` | Optional. `minimal` (default) turns Gemma 4 thinking off for fast, reliable JSON; `high` turns it on (much slower on long prompts). |
+| `GEMMA_FALLBACK_MODEL` | Optional. Model to retry on timeouts or server errors; defaults to the other Gemma 4 model. Set to `none` to disable. |
 
 ## Two-minute judge demo
 

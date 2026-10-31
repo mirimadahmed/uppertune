@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { analyzeRequestSchema, startupProfileSchema } from "@/lib/ai-schemas";
-import { AiError, generateJson, getModelName, isAiConfigured } from "@/lib/gemma";
+import { AiError, generateJsonWithModel, isAiConfigured } from "@/lib/gemma";
 import { profileExtractionPrompt } from "@/lib/prompts";
 import type { AnalyzeResponse, StartupProfile } from "@/lib/types";
 
@@ -41,13 +41,14 @@ export async function POST(request: Request) {
 
   const { url, page, founderDescription } = parsed.data;
   try {
-    const result = await generateJson(profileExtractionPrompt({ url, page, founderDescription }), startupProfileSchema, {
-      temperature: 0.1,
-      maxOutputTokens: 2048,
-    });
+    const { data: result, model } = await generateJsonWithModel(
+      profileExtractionPrompt({ url, page, founderDescription }),
+      startupProfileSchema,
+      { temperature: 0.1, maxOutputTokens: 8192 },
+    );
     const website = page?.url || url || result.website;
     const profile: StartupProfile = { ...result, website: website || undefined };
-    return NextResponse.json<AnalyzeResponse>({ ok: true, profile, source: "gemma", model: getModelName() });
+    return NextResponse.json<AnalyzeResponse>({ ok: true, profile, source: "gemma", model });
   } catch (err) {
     const message =
       err instanceof AiError
